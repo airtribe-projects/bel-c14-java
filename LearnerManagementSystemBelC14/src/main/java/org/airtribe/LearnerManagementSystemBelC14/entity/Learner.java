@@ -7,6 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 
@@ -16,8 +20,11 @@ public class Learner {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long learnerId;
 
+  @NotBlank
+  @NotNull
   private String learnerName;
 
+  @Email
   private String learnerEmail;
 
   @ManyToMany(mappedBy = "learners")

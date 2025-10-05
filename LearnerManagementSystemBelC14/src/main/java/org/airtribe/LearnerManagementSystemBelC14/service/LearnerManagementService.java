@@ -1,5 +1,6 @@
 package org.airtribe.LearnerManagementSystemBelC14.service;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import org.airtribe.LearnerManagementSystemBelC14.entity.Cohort;
@@ -63,7 +64,17 @@ public class LearnerManagementService {
     learners.add(learnerOptional.get());
     return _cohortRepository.save(cohortOpt.get());
   }
-}
 
-// /assignLearnersToCohorts?learnerId=1&cohortId=2
-//
+  @Transactional
+  public Cohort assignAndCreateLearnersToCohort(List<Learner> learners, Long cohortId) throws CohortNotFoundException {
+    Optional<Cohort> cohortOptional = _cohortRepository.findById(cohortId);
+    if (!cohortOptional.isPresent()) {
+      throw new CohortNotFoundException("Cannot find cohort with Id " + cohortId);
+    }
+
+    List<Learner> registeredLearners = cohortOptional.get().getLearners();
+    registeredLearners.addAll(learners);
+    cohortOptional.get().setLearners(registeredLearners);
+    return _cohortRepository.save(cohortOptional.get());
+  }
+}

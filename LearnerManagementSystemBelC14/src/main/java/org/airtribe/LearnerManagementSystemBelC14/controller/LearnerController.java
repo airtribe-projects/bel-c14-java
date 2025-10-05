@@ -1,5 +1,6 @@
 package org.airtribe.LearnerManagementSystemBelC14.controller;
 
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,8 @@ public class LearnerController {
   @Autowired
   private LearnerManagementService learnerService;
 
-  // Jackson -> serialization and deserialization
   @PostMapping("/learners")
-  public Learner createLearner(@RequestBody Learner learner) {
+  public Learner createLearner(@Valid @RequestBody Learner learner) {
     return learnerService.createLearner(learner);
   }
 
@@ -46,9 +46,7 @@ public class LearnerController {
     }
 
     if (learnerId != null) {
-
         learners.add(learnerService.fetchLearnerById(learnerId));
-
     }
 
     if (learnerName != null) {
@@ -80,5 +78,16 @@ public class LearnerController {
   @ExceptionHandler(LearnerNotFoundException.class)
   public ResponseEntity handleLearnerNotFoundException(LearnerNotFoundException e) {
     return ResponseEntity.status(404).body(e.getMessage());
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity handleValidationExceptions(MethodArgumentNotValidException ex) {
+    Map<String, String> errors = new HashMap<>();
+    ex.getBindingResult().getAllErrors().forEach((error) -> {
+      String fieldName = ((FieldError) error).getField();
+      String errorMessage = error.getDefaultMessage();
+      errors.put(fieldName, errorMessage);
+    });
+    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
   }
 }
