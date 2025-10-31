@@ -5,6 +5,10 @@ import org.aitribe.AuthenticationAuthorizationC14.entity.UserDTO;
 import org.aitribe.AuthenticationAuthorizationC14.entity.VerificationToken;
 import org.aitribe.AuthenticationAuthorizationC14.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,4 +42,37 @@ public class UserController {
       return "Token verification failed. Please try again.";
     }
   }
+
+  @PostMapping("/signin")
+  public String loginUser(@RequestParam String username, @RequestParam String password) {
+    return _userService.loginUser(username, password);
+  }
+
+  @GetMapping("/test")
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public String test() {
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    String username = authentication.getName();
+//    authentication.getAuthorities().forEach(authority -> {
+//      System.out.println("User Authority: " + authority.getAuthority());
+//    });
+//    if (authentication.getAuthorities().isEmpty()) {
+//      return "No authorities found for user: " + username;
+//    }
+//    if (authentication.getAuthorities().toString() == "[ROLE_ADMIN]") {
+//      return "Test endpoint accessed successfully by ADMIN user: " + username;
+//    }
+//
+//    return "Test endpoint access denied for user: " + username;
+    return "Test endpoint accessed successfully by ADMIN user.";
+  }
+
+  @GetMapping("/hello")
+  public String hello() {
+    return "Hello, World!";
+  }
+
 }
+
+
+// SERVLET -> MIDDLE LAYER -> CONTROLLER _> SERVICE _> DATABASE

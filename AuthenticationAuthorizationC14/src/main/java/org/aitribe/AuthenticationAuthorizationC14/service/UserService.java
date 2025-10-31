@@ -6,6 +6,7 @@ import org.aitribe.AuthenticationAuthorizationC14.entity.UserDTO;
 import org.aitribe.AuthenticationAuthorizationC14.entity.VerificationToken;
 import org.aitribe.AuthenticationAuthorizationC14.repository.UserRepository;
 import org.aitribe.AuthenticationAuthorizationC14.repository.VerificationTokenRepository;
+import org.aitribe.AuthenticationAuthorizationC14.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -84,5 +85,24 @@ public class UserService implements UserDetailsService {
     fetchedUser.setEnabled(true);
     _userRepository.save(fetchedUser);
     _verificationTokenRepository.delete(token);
+  }
+
+  public String loginUser(String username, String password) {
+    User user = _userRepository.findByUsername(username);
+    if (user == null) {
+      return "User not found";
+    }
+
+    if (!user.isEnabled()) {
+      return "User not enabled. Please verify your email.";
+    }
+
+    String passwordStored = user.getPassword();
+    Boolean isPasswordMatch = _passwordEncoder.matches(password, passwordStored);
+    if (!isPasswordMatch) {
+      return "Invalid password";
+    }
+    return TokenUtil.generateJwtToken(user);
+
   }
 }
