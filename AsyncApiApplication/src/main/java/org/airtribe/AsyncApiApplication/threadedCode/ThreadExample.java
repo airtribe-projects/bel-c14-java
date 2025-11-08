@@ -1,0 +1,11 @@
+package org.airtribe.AsyncApiApplication.threadedCode;
+
+public class ThreadExample extends Thread {
+
+  @Override
+  public void run() {
+    for (int i = 0; i < 1000; i++) {
+      System.out.println(Thread.currentThread().getName() + " is running " + i);
+    }
+  }
+}

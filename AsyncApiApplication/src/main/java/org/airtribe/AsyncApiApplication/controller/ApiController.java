@@ -1,10 +1,13 @@
 package org.airtribe.AsyncApiApplication.controller;
 
+import java.util.List;
 import org.airtribe.AsyncApiApplication.dto.ApiResult;
 import org.airtribe.AsyncApiApplication.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -34,6 +37,31 @@ public class ApiController {
   @GetMapping("/products/async")
   public Mono<ApiResult> getProductsAsync() {
     return _apiService.getProductsAsync();
+  }
+
+  @GetMapping("/products/asyncParallel")
+  public Mono<List<ApiResult>> getProductsAsyncParallel() {
+    return _apiService.getProductsAsyncParallel();
+  }
+
+  @GetMapping("/products/asyncFastestParall")
+  public Mono<ApiResult> getProductsAsyncFastestParallel() {
+    return _apiService.getProductsAsyncFastestParallel();
+  }
+
+  @GetMapping("/products/syncChainedRequests")
+  public List<ApiResult> getProductsSyncChained() {
+    return _apiService.getProductsSyncChained();
+  }
+
+  @GetMapping("/products/asyncChainedRequests")
+  public Mono<List<ApiResult>> getProductsAsyncChained() {
+    return _apiService.getProductsAsyncChained();
+  }
+
+  @GetMapping(value = "/products/fluxStream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+  public Flux<ApiResult> getProductsFluxStream() {
+    return _apiService.getProductsFluxStream();
   }
 
 }
