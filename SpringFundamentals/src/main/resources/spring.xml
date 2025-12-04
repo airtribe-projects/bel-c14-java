@@ -1,0 +1,24 @@
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--  <bean class="org.example.Engine" id="engine1">-->
+<!--    <constructor-arg name="enginePower" value="1000"></constructor-arg>-->
+<!--    <constructor-arg name="engineType" value="V6"></constructor-arg>-->
+<!--  </bean>-->
+
+<!--  <bean class="org.example.Engine" id="engine2">-->
+<!--    <constructor-arg name="enginePower" value="2000"></constructor-arg>-->
+<!--    <constructor-arg name="engineType" value="V7"></constructor-arg>-->
+<!--  </bean>-->
+
+<!--  <bean class="org.example.Car">-->
+<!--    <constructor-arg value="suv"></constructor-arg>-->
+<!--    <constructor-arg ref="engine2"></constructor-arg>-->
+<!--  </bean>-->
+
+<!--</beans>-->
